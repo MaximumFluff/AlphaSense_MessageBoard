@@ -4,8 +4,12 @@ import '../App.css';
 
 const Header = ({onBoardSelected, boards}) => (
   <div className='header-boards'>
+    <p style={{ fontSize: 20, margin: 10}}>/</p>
     {boards.map(board => (
-      <button name={board} className="board-link" onClick={e => onBoardSelected(e.target.name)}>{board}</button>
+      <div style={{ display: 'flex', flexDirection: 'row', }}>
+        <button name={board.name} className="board-link" onClick={e => onBoardSelected(board.name, board.symbol)}>{board.symbol}</button>
+        <p style={{ fontSize: 20, margin: 10}}>/</p>
+      </div>
     ))}
   </div>
 );

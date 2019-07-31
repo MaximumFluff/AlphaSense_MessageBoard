@@ -3,26 +3,15 @@
   height: 100%;
 }
 
-.header-boards {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 50px;
-  width: 100%;
-}
-
 .message {
   height: 200px;
   width: 75%;
-  margin-top: 25px;
   margin-bottom: 25px;
-  border: 2px solid gray;
+  background-color: #293d47;
 }
 
 .content {
+  margin-top: 100px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -30,17 +19,21 @@
 }
 
 .form {
+  position: sticky;
+  top: 50px;
+  height: 300px;
+  width: 500px;
+  margin-bottom: 100px;
   display: flex;
+  text-align: center;
   flex-direction: column;
   align-content: center;
-  margin-top: 100px;
 }
 
 .messages {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
   width: 75%;
   height: 100%;
 }
@@ -52,10 +45,52 @@
   font-size: 20px;
 }
 
+.board-link:hover {
+  cursor: pointer;
+  color: gray;
+}
+
+.header-boards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: #547485;
+}
+
+#username {
+  color: #963030;
+  font-weight: bold;
+}
+
+#postNumber {
+  color: #273e4a;
+}
+
+#header {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 50px;
+}
+
 #submit {
   color: black;
 }
 
 button, p, h1 {
   color: white;
+}
+
+p {
+  margin: 5px;
 }

@@ -6,7 +6,7 @@ const Form = ({ updateField, postNewMessage, username, body }) => (
   <div className="form">
     <input type="text" name="username" placeholder="Username" value={username} onChange={event => updateField(event)}/>
     <textarea name="body" rows="10" cols="30" placeholder="Message body goes here" value={body} onChange={event => updateField(event)}/>
-    <button name="submit" onClick={() => postNewMessage()} id="submit">Submit</button>
+    <button name="submit" onClick={() => postNewMessage()} id="submit">Reply</button>
   </div>
 )
 
