@@ -7,72 +7,54 @@ const Thread = require('./models/Thread');
 const app = express();
 require('dotenv').config();
 
-app.use(cors({optionSuccessStatus: 200}));
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(cors({ optionSuccessStatus: 200 }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-mongoose.connect(process.env.MLAB_URI, {useNewUrlParser: true});
+mongoose.connect(process.env.MLAB_URI, { useNewUrlParser: true });
 let postCounter = 1;
 
-// TODO: Remove in memory database, migrate to MongoDB
 // TODO: Implement caching?
 // TODO: Implement unit testing and security
 
-const database = {
-  fit: [],
-  technology: [],
-  random: [],
-  general: [],
-}
-
+// Return list of available channels
 app.get('/channels', (req, res) => {
   Channel.find((err, data) => {
     if (err) return res.status(400);
     else return res.json(data);
-  })
-})
+  });
+});
 
+// Get threads and replies for specified channel
 app.get('/messages/:channel', (req, res) => {
-  if (database[req.params.channel] === undefined) {
-    res.status(400);
-  }
-  else {
-    console.log(database);
-    res.json(database[req.params.channel]);
-  }
-})
+  Thread.find({ board: req.params.channel }, (err, data) => {
+    if (err) res.status(400);
+    else return res.json(data);
+  });
+});
 
+// Post thread / reply to thread for specified channel
 app.put('/:channel', (req, res) => {
-  /*if (database[req.params.channel] === undefined) {
-    res.status(400);
-  }
-  else {
-    const newMessage = {
-      username: req.body.username,
-      body: req.body.body,
-      post_number: postCounter,
-      timestamp: new Date().getTime(),
-    }
-    postCounter += 1;
-    database[req.params.channel].push(newMessage);
-    console.log(database);
-    res.json("Message successfully added to channel");
-  }*/
-  if (!req.body.username && req.body.body) {
+  if (!req.body.body) {
     return res.status(400);
   }
-  const newMessage = new Thread({
-    username: req.body.username,
+  const newThread = new Thread({
+    username: !req.body.username ? "Anonymous" : req.body.username,
     body: req.body.body,
-    thread_id: postCounter,
+    post_number: postCounter,
     timestamp: new Date().getTime(),
     replies: [],
-  })
-  newMessage.save((err, data) => {
+    board: req.params.channel,
+  });
+
+  // Increase post count
+  postCounter += 1;
+
+  newThread.save((err, data) => {
     if (err) res.status(400);
-    else return res.status(200);
-  })
-})
+    else return res.json(data);
+  });
+});
 
 app.listen(process.env.PORT, () => {
   console.log('Your app is listening on port ' + process.env.PORT);
